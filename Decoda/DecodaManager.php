@@ -423,6 +423,8 @@ class DecodaManager
 
         $decoda->setDefaultLocale($this->options['default_locale']);
         $decoda->setLocale($this->getLocale());
+        
+        $decoda->defaults();
 
         $this->preConfiguredDecoda = $decoda;
 
