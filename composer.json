@@ -1,9 +1,9 @@
 {
-    "name": "helios-ag/fm-bbcode-bundle",
+    "name": "sgrodzicki/fm-bbcode-bundle",
     "type": "symfony-bundle",
     "description": "Symfony FMBbCodeBundle",
     "keywords": ["bbcode"],
-    "homepage": "https://github.com/helios-ag/FMBbCodeBundle",
+    "homepage": "https://github.com/sgrodzicki/FMBbCodeBundle",
     "license": "MIT",
     "authors": [
         {
