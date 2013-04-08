@@ -331,4 +331,31 @@ class Decoda extends BaseDecoda
     {
         return parent::removeHook(array_map('strtolower', (array) $ids));
     }
+    
+    /**
+     * @inheritdoc
+     */
+    protected function _parse(array $nodes, array $wrapper = array())
+    {
+        $parsed = '';
+        $xhtml  = $this->config('xhtmlOutput');
+
+        if (!$nodes) {
+            return $parsed;
+        }
+
+        foreach ($nodes as $node) {
+            if (is_string($node)) {
+                if (!$wrapper) {
+                    $parsed .= nl2br($node, $xhtml);
+                } else {
+                    $parsed .= $node;
+                }
+            } else {
+                $parsed .= $this->getFilterByTag($node['tag'])->parse($node, $this->_parse($node['children'], $node));
+            }
+        }
+
+        return trim($parsed);
+    }
 }
