@@ -53,6 +53,10 @@ class BbcodeExtension extends \Twig_Extension
      */
     public function filter($value, $filterSet = DecodaManager::DECODA_DEFAULT)
     {
+        if (null === $value) {
+            return '';
+        }
+
         if (!is_string($value)) {
             throw new \Twig_Error_Runtime('The filter can be applied to strings only.');
         }
@@ -72,6 +76,10 @@ class BbcodeExtension extends \Twig_Extension
      */
     public function clean($value, $filterSet = DecodaManager::DECODA_DEFAULT)
     {
+        if (null === $value) {
+            return '';
+        }
+
         if (!is_string($value)) {
             throw new \Twig_Error_Runtime('The filter can be applied to strings only.');
         }
