@@ -172,6 +172,7 @@ class BbcodeExtensionTest extends TwigBasedTestCase
     public function dataDefaultFilterSet()
     {
         return array(
+            array(null, ""),
             array('[b]Bold[/b]', "<b>Bold</b>"),
             array('[i]Italic[/i]', "<i>Italic</i>"),
             array('[u]Underline[/u]', "<u>Underline</u>"),
