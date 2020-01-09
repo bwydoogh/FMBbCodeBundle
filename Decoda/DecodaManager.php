@@ -1,6 +1,7 @@
 <?php
 namespace FM\BbcodeBundle\Decoda;
 
+use Decoda\Loader\DataLoader;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Symfony\Component\HttpKernel\Config\FileLocator;
@@ -416,10 +417,14 @@ class DecodaManager
         $decoda = new Decoda();
 
         if (null !== $this->options['messages']) {
-            $decoda->addMessages($this->messageLoader->load($this->options['messages']));
+            $messages = $this->messageLoader->load($this->options['messages']);
+            $decodaLoader = new DataLoader($messages);
+            $decoda->addMessages($decodaLoader);
         }
-
-        $decoda->setEngine($this->getPhpEngine());
+        
+        if (false === empty($this->options['templates'])) {
+            $decoda->setEngine($this->getPhpEngine());
+        }
 
         $decoda->setDefaultLocale($this->options['default_locale']);
         $decoda->setLocale($this->getLocale());

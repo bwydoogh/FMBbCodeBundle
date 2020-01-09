@@ -4,6 +4,7 @@ namespace FM\BbcodeBundle\Decoda;
 
 use Decoda\Hook;
 use Decoda\Filter;
+use Decoda\Loader;
 use Decoda\Decoda as BaseDecoda;
 use \DomainException;
 
@@ -26,9 +27,6 @@ class Decoda extends BaseDecoda
     public function __construct($string = '', array $messages = array())
     {
         parent::__construct($string);
-
-        // Force the generation of default Decoda messages
-        $this->message(null);
 
         $this->setMessages(array_merge($this->_messages, $messages));
     }
@@ -82,7 +80,7 @@ class Decoda extends BaseDecoda
 
         $this->defaultLocale = $locale;
 
-        if (null === $this->config('locale')) {
+        if (null === $this->getConfig('locale')) {
             parent::setLocale($locale);
         }
 
@@ -103,7 +101,7 @@ class Decoda extends BaseDecoda
 
         if (!empty($key) && $this->defaultLocale !== null && empty($translated)) {
             // fallback default locale
-            $locale = $this->config('locale');
+            $locale = $this->getConfig('locale');
             parent::setLocale($this->defaultLocale);
 
             $translated = parent::message($key, $vars);
@@ -122,19 +120,22 @@ class Decoda extends BaseDecoda
     public function setMessages(array $messages = array())
     {
         $this->_messages = array();
-        $this->addMessages($messages);
+        $loader = new Loader\DataLoader($messages);
+        $this->addMessages($loader);
     }
 
     /**
-     * Adds messages to the parser messeges.
-     *
-     * @param array $messages An array of messages with keys are locales
+     * {@inheritDoc}
      */
-    public function addMessages(array $messages)
+    public function addMessages(Loader $loader)
     {
-        foreach ($messages as $locale => $value){
-            foreach ($value as $id => $message){
-                $this->setMessage($locale, $id, $message);
+        $loader->setParser($this);
+
+        if ($messages = $loader->load()) {
+            foreach ($messages as $locale => $value){
+                foreach ($value as $id => $message){
+                    $this->setMessage($locale, $id, $message);
+                }
             }
         }
     }
@@ -213,7 +214,7 @@ class Decoda extends BaseDecoda
 
         $id = strtolower($id);
 
-        $tags = $filter->tags();
+        $tags = $filter->getTags();
 
         $this->_filters[$id] = $filter;
 
@@ -338,7 +339,7 @@ class Decoda extends BaseDecoda
     protected function _parse(array $nodes, array $wrapper = array())
     {
         $parsed = '';
-        $xhtml  = $this->config('xhtmlOutput');
+        $xhtml  = $this->getConfig('xhtmlOutput');
 
         if (!$nodes) {
             return $parsed;

@@ -35,11 +35,6 @@ class DecodaPhpEngine extends PhpEngine
      */
     protected $_filter;
 
-    public function __construct()
-    {
-        $this->getPath();
-    }
-
     /**
      * Return the current filter.
      *
@@ -64,7 +59,7 @@ class DecodaPhpEngine extends PhpEngine
      */
     public function render(array $tag, $content)
     {
-        $setup = $this->getFilter()->tag($tag['tag']);
+        $setup = $this->getFilter()->getTag($tag['tag']);
 
         $paths = $this->getPaths();
         $pathMap = 0;
@@ -122,8 +117,6 @@ class DecodaPhpEngine extends PhpEngine
      */
     public function setPath($path)
     {
-        parent::setPath($path);
-
         return $this->addPath($path);
     }
 
