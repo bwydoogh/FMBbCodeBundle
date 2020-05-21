@@ -1,5 +1,5 @@
 {
-    "name": "sgrodzicki/fm-bbcode-bundle",
+    "name": "bwydoogh/fm-bbcode-bundle",
     "type": "symfony-bundle",
     "description": "Symfony FMBbCodeBundle",
     "keywords": ["bbcode"],
@@ -9,6 +9,10 @@
         {
             "name": "Albert Ganiev",
             "email": "helios.ag@gmail.com"
+        },
+        {
+            "name": "Benny Wydooghe",
+            "email": "benny.wydooghe@gmail.com"
         }
     ],
     "require": {
